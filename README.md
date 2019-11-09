@@ -58,3 +58,85 @@ Supongamos que vas a un sitio a buscar vuelos, cuando tu entras al sitio se te c
  ## Resumen modulo 1
  
 ![seguridad](./md/seguridad-8.jpg)
+
+## Json Web Token
+Es un estandar de la industria que nos permite generar demanda entre 2 clientes, y se ve así.
+
+![seguridad](./md/seguridad-9.jpg)
+
+### JWT Decodificado
+Un JWT consta de 3 partes generalmente divididas por un punto
+#### Header
+* El tipo, que por lo general es JWT 
+* El algoritmo de encriptación de la firma
+  * Puede ser Asincrono o Sincrono
+  * Los algoritmo asincronos usan 2 llaves de encriptación, una pública paraencriptar y una privada para desencriptar
+  * El algoritmo sincrono usa una sola llave para encriptar y para desencriptar
+  * Ambos son seguros de usar pero depende donde los uses
+  * Los algoritmos asincronos se usan cuando partes publicas tienen acceso a estas llaves
+  * Los algoritmos sincronos solo deben usarse en sistemas como en el backend
+#### Payload
+Es donde guardamos todala información de nuestro usuario incluso todos los scopes de autorización, este payload se componen  de __Claims__ generalmente representado por 3 letras para mantener el JWT lo más pequeño, existen diferentes tipos de claims.
+
+[claims list](https://tools.ietf.org/html/rfc7519)
+
+#### Signature
+La tercera parte del JWT es la firma y es la que hace muy poderosa el JWT esta compuesto del:
+* Header codificado
+* Payload codificado
+A todo esto se le aplica el algoritmo de encriptación usando un secret, en el caso del algoritmo __HMACSHA256__ debemos usar un string de 256 caracteres de longitud.
+## Autenticación tradicional vs JWT
+
+![seguridad](./md/seguridad-10.jpg)
+
+### Autenticación tradicional
+
+![seguridad](./md/seguridad-11.jpg)
+
+En la autenticación tradicional cuando sucede un proceso de autentificación se crea un sesión, el id de esta sesion se almacena en una cookie que es enviada al navegador.
+
+Recordemos que las cookies no se llaman cookies por las galletas de chocolate si no por las gallertas de la fortuna que tienen mensajes adentro.
+
+De ahi en adelante todos los request tienen la cookie que tiene almacenada el id de la sesión y esta es usada para verificar la sesión previamente activa.
+
+Uno de los probelmas que tiene esta método es que clientes como la SPA no recargan la página entonces no se puede saber si hubo cambios en la sesión, otro problema es que por definición la REST API no tienen estado y al usar sesiones estamos creando esetado y esto contradice este principio.
+
+Otro problema es que en arquitecturas modernas que usan microservicios la sesión que solo existe en una maquina no fluye durante los otros clientes, entonces es un poco dificil de escalar.
+
+Y otro problema es que el control de acceso siemrpe requirer que vallamos a base de datos.
+
+Finalmente controlar el uso de memoria puede ser otro problema ya que cada cliente que se conecta genera  otra sesión generando más consumo de memoria.
+
+### Autenticación con JWT
+
+![seguridad](./md/seguridad-12.jpg)
+
+Al suceder el proceso de autenticación se firma un token a partir de ahi el token es enviado al cliente y este es almacenado en memoria o en una cookie, todos los request de ahi en adelante llevan este token una de las grandes ventajas es que una SPA ya no requiere del backend para saber si el usuario esta autenticado, lo otro es que el backend puede recibir multiples request de multiples clientes y lo único que le interesa es saber si el token esta bien firmado.
+
+Finalmente es el cliente quien sabe que permisos tiene y no tiene que ir hasta base de datos para saber que permisos tiene.
+
+## Firmando nuestro JWT
+
+![seguridad](./md/seguridad-13.jpg)
+
+Para firmar un JWT tenemos que hacer uso de una libreria llamada JWT, esta tiene un método llamado __sign__.
+
+![seguridad](./md/seguridad-14.jpg)
+
+Este método recibe como argumento:
+* Payload - Este esta construido con los  diferentes claims que definamos
+* Secret - Con el cual sera firmado la firma del JWT
+* options - opciones extra para el firmado del JWT
+
+## Verificando nuestro JWT
+
+![seguridad](./md/seguridad-15.jpg)
+
+Para la verificaciónd e nuestro jWT usando la misma libreria vamos a hacer uso del método __verify__.
+
+![seguridad](./md/seguridad-16.jpg)
+
+* token - recibimos el token que queremos verificar
+* secret - recibimos el secret
+* decoded token - recibimos un callback que nos va a devolver el jwt decodificado
+  * tambien podemos omitirlo y recibirlo de forma asincrona
