@@ -140,3 +140,23 @@ Para la verificaciónd e nuestro jWT usando la misma libreria vamos a hacer uso 
 * secret - recibimos el secret
 * decoded token - recibimos un callback que nos va a devolver el jwt decodificado
   * tambien podemos omitirlo y recibirlo de forma asincrona
+
+## Cookies
+
+![seguridad](./md/seguridad-17.jpg)
+
+Pero primero que todo, ¿Qué es una cookie
+![seguridad](./md/seguridad-18.jpg)
+
+Una cookie es un archivo creado por un sitio web que tiene pequeños pedasos de datos almacenados en el, su proposito principal es identificar al usuario mediante el almacenamiento de su historial.
+
+Las session cookie tienen un corto tiempo de vida ya que estan son removidas cuando se cierra la pestaña o el navegador.
+
+Las persistent cookies se usan principalmente para rastrear al usuario guardando información de su interes.
+
+Las secure cookies almacenan datos de manera cifrada para que terceros malintencionados no puedan rovar la información en el, suelen usarse en conexiones seguras (HTTPS).
+
+### Leyes sobre las cookies
+* Siempre deber avisar al usuario que estas haciendo uso de cookies en el sitio web
+* Es necesario el concentimiento del usuario para que puedas implementar el manejo de cookies en tu sitio web
+* Si las cookies son necesarias para la autenticación del usuario o para algún problema de seguridad, estas leyes no aplican en estos casos.
