@@ -145,7 +145,8 @@ Para la verificaciónd e nuestro jWT usando la misma libreria vamos a hacer uso 
 
 ![seguridad](./md/seguridad-17.jpg)
 
-Pero primero que todo, ¿Qué es una cookie
+Pero primero que todo, ¿Qué es una cookie?
+
 ![seguridad](./md/seguridad-18.jpg)
 
 Una cookie es un archivo creado por un sitio web que tiene pequeños pedasos de datos almacenados en el, su proposito principal es identificar al usuario mediante el almacenamiento de su historial.
@@ -160,3 +161,65 @@ Las secure cookies almacenan datos de manera cifrada para que terceros malintenc
 * Siempre deber avisar al usuario que estas haciendo uso de cookies en el sitio web
 * Es necesario el concentimiento del usuario para que puedas implementar el manejo de cookies en tu sitio web
 * Si las cookies son necesarias para la autenticación del usuario o para algún problema de seguridad, estas leyes no aplican en estos casos.
+
+## Cookies vs Session Storage vs Local Storage
+
+![seguridad](./md/seguridad-19.jpg)
+
+### Local Storage
+* Almacenamiento maximo de 5MB.
+* La información no se va con cada request que hacemos al servidor ayudando a reducir la información entre cliente y servidor.
+* La información que se guarda en el local storage persiste aunque cerremos la ventana del navegador.
+### Session Storage
+* Muy similar al localstorage
+* La información esta disponible solo por tab
+* Apenas cerramos un tab la información deja de persistir
+* La información que almacenamos en cada tab solo esta disponible en ese mismo tab.
+* Cuando la información es medianamente sensible como nombres de usuarios.
+### Cookies
+* Almacenamiento de 4kb
+* Se le puede asignar un tiempo de expiración.
+* Por cada petición que se haga al servidor las cookies van pegadas a la petición ocacionando un consumo de datos cada que se hace una petición.
+* Las cookies pueden ser seguras mediante un flag llamado HTTPonly.
+* Información sensible como contraseñas o JWT
+### Local Storage y Session Storage
+* Solo información no sensible.
+* Se le puede asignar un tiempo de expiración programaticamente con javascript.
+## Resumen
+
+![seguridad](./md/seguridad-20.jpg)
+
+## Implementando passport.js
+
+![seguridad](./md/seguridad-21.jpg)
+
+### Arquitectura del proyecto Platzi Video
+
+![seguridad](./md/seguridad-22.jpg)
+
+La arquitectura depende de un API server.
+
+![seguridad](./md/seguridad-23.jpg)
+
+Este API tiene un CRUD de peliculas y agregaremos 2 endpoints más sigin(auntenticar un usuario) y signup(crear un usaurio) .
+
+Para poder consumir el endpoint de signin los clientes, en este caso el admin client y el render server necesitan un __API token__ el cúal es muy diferente a un access token, este API token nis permite definir los permisos que tiene cada clietne.
+
+* Admin client - permisos administrativos (CRUD)
+* Render server - permisos públicos de solo lectura
+
+Cuando cualquiera de estos cliente haciendo uso de estos diferentes APIs token hagan auntenticación, toda nuestra estrategia de autenticación va a generar un access token, el cual sera un JWT que va a tener la información del usuario que hace autenticación y los permisos determinados por el API token de esta manera en las peticiones siguientes nuestro render server o admin client con el access token que fue generado va a poder consumir los recursos del API token.
+
+La SPA se va a comunicar con nuestra API a tra vez del render server que va a hacer de proxy, es muy importante que tenga un servidor, La manea como la SPA se va comunicar con el API server es a tra vez de una cookie que va a tener el access token del render server.
+
+## Passport.js
+
+![seguridad](./md/seguridad-25.jpg)
+
+Passport.js es un middleware para express que nos permite implementar diferentes estrategias de autenticación de una manera muy facil y simple.
+
+#### Dependencias necesarias:
+* passport
+* jsonwebtoken
+* passport-http | para implementar la estrategia baisc de passport
+* passport-jwt | para implementar la estrategia de jwt
