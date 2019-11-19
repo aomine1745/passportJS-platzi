@@ -223,3 +223,53 @@ Passport.js es un middleware para express que nos permite implementar diferentes
 * jsonwebtoken
 * passport-http | para implementar la estrategia baisc de passport
 * passport-jwt | para implementar la estrategia de jwt
+
+## OAuth 2.0 y OpendID Connect
+Son estandares que nos permiten implementar cosas como autorización mediante redes sociales.
+
+![seguridad](./md/seguridad-26.jpg)
+
+### OAuth 2.0
+
+![seguridad](./md/seguridad-27.jpg)
+
+Es un estandard de la industria que nos permite implementar autorización.
+
+Lo más importante para implementar OAuth 2.0 es entender cuales son los roles envueltos en los flujos.
+
+![seguridad](./md/seguridad-28.jpg)
+
+* 1er rol | User - Resource Owner
+* 2do rol | Service API - Resource Server
+* 3er rol | Application- client
+* 3to rol | Service API - Authorization server
+
+![seguridad](./md/seguridad-29.jpg)
+
+El flujo empieza cuando la app quiere hacer un authorization request entonces tú como usuario debes permitirle a la app acceder a tus recursos, eso lo hace mediante un __authorization grant__ con la cual la app va al __authorization server__ verifica que los datos son correctos y te da un acces token, el cual podria ser un token cualquiera o un JWT.
+
+A partir de ahi la app con ese access token puede hacer cualquier petición y obtener recursos en tu nombre entonces el __resource server__ que seria el API devolveria los recursos protegidos gracias a que tu le enviaste un access token.
+
+Un ejemplo del mundo real para que sea muchos más entendible.
+
+![seguridad](./md/seguridad-30.jpg)
+
+Supongamos que el cliente es tu hermano, él cual quiere acceder a la pelota que esta en el closet(resource server) pero tú no te encuentras en casa sin embargo tus padres sí, entonces el hermano intentaria pedirte una autorización, tú lo que podrias enviar como authorization grant es una carta iciendo que tu hermano esta permitido en obtener la pelota, tu hermano con esa carta se drigie a sus padres(authorization server) los cuales verificarian que sea una carta con tu letra y le darias las llaves(access token) ahora tu hermano puede acceder al closet y obtener la pelota y así es como funcionaria OAuth
+
+### OpenID Connect
+
+![seguridad](./md/seguridad-31.jpg)
+
+Es una capa de autenticación que funciona sobre OAuth 
+
+![seguridad](./md/seguridad-32.jpg)
+
+Las compañias que empezaban a usar OAuth para autenticar estaban teniendo problemas de seguridad, facebook tuvo problemas ya que se estaban suplantando access token para hacer todo el proceso de autenticación, entonces facebook tuvo que hacer unas soluciones sobre esa capa de OAuth y lo que paso es que las otras empresas empezaron a implementar esos fixes.
+
+OpenID Connect se trata de crear un estandard así todas las personas no tienen que hacer su propia versión de autenticación sobre OAuth, las diferencias que tienen es que los access token se usan exclusivamente para los llamados al API, es decir para obtener los recursos y entra un concepto llamado ID Token, es un nuevo token que nos permite saber si el usuario esta autenticado y nos permite tambien obtener la información del usuario
+
+Basicamente OpenID implementa unos claims y unos scopes definidos para este ID Token y debemos implementear tambien un endpoint llamados user-info donde enviamos el ID Token y podamos obtener toda la información del usuario.
+
+OpenID Connect tambien define como debemos hacer uso del manejo de session como logout, signout, etc.
+
+El flujo es masomenos el siguiente, se hace un request a /auth y este nos devuelve el ID Token el cual debe tener definido los scopes de OpenID y Profile con este ID Token sabemos que el usuario esta autenticado y ya finalmente podemos hacer un request a /user-info para obtener toda la información del usuario 
