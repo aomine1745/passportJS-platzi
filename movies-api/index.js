@@ -1,5 +1,6 @@
 // Express
 const express = require('express')
+const helmet = require('helmet')
 const app = express()
 
 // Resources
@@ -20,7 +21,8 @@ const cors = require('cors')
 
 // Body parser
 app.use(express.json())
-
+// helmet
+app.use(helmet())
 // cors
 app.use(cors())
 

@@ -272,4 +272,46 @@ Basicamente OpenID implementa unos claims y unos scopes definidos para este ID T
 
 OpenID Connect tambien define como debemos hacer uso del manejo de session como logout, signout, etc.
 
-El flujo es masomenos el siguiente, se hace un request a /auth y este nos devuelve el ID Token el cual debe tener definido los scopes de OpenID y Profile con este ID Token sabemos que el usuario esta autenticado y ya finalmente podemos hacer un request a /user-info para obtener toda la información del usuario 
+El flujo es masomenos el siguiente, se hace un request a /auth y este nos devuelve el ID Token el cual debe tener definido los scopes de OpenID y Profile con este ID Token sabemos que el usuario esta autenticado y ya finalmente podemos hacer un request a /user-info para obtener toda la información del usuario.
+
+## OWASP
+
+![seguridad](./md/seguridad-33.jpg)
+
+¿Qué es owasp y las buenas prácticas de seguridad?
+
+![seguridad](./md/seguridad-34.jpg)
+
+### Top 3 atacques más comunes
+
+#### Injection
+Es un ataque que describe como hacer SQL Injection, el cual explota la vulnerabilidad de inputs no protegidos en los cuales se pueden injectar código SQL para afectar la base de datos.
+
+#### Broken Authentication
+Relacionado con todo lo que va alrededor de la autenticación, es decir no fomentar banear personas que intentan autenticar muchas veces o usar contraseñas muy debiles.
+
+#### Sensitive Data Exposure
+Revelar data sencible de los usuarios puede ser factor para que los hacker hagan ingenieria social, por eso es importante tener siempre la información segura y encriptada.
+
+La [GDPR](https://www.eugdpr.org) es una nueva ley llamada la General Data Protection Regulation que te obliga a que la información de tus usuarios sea completamente guardada de manera segura, es muy importante seguir esta ley por que sino te pueden multar
+
+### Buenas Prácticas
+
+![seguridad](./md/seguridad-35.jpg)
+
+#### Usar un gestor de contraseñas
+Las contraseñas nunca se deben repetir ademas los gestores de contraseñas nos indican si las contraseñas tienen buena seguridad, si estan bien repetidas y las generan por nosotros.
+
+![seguridad](./md/seguridad-36.jpg)
+
+#### Usar un método de multi-factor authentication
+Autenticación en 2 pasos, esto trata de que ademas de que introduzas la contraseña en tu cuenta debes generar ademas otro método de autenticación como reconocimiento facial, la huella digital o algo muy interesante llamada las __ui keys__ las cuales se necesitan acceder a tu computador para acceder a tu cuenta.
+
+#### IRL Security
+Algo que debes tener en cuenta es la seguridad en tu entorno, si tú dejas computador al aire libre facilmente te van a poder hackear, de nada sirve que tengas la puerta más segura si dejas una ventana abierta de tu casa.
+
+#### Manten actualizadas tus aplicaciones y SO
+Como vimos en clases anteriores las vulnerabilidades en paketes suceden de un momento pra otro, es muy importante tener actuliazada las aplicaciones y el SO por que ahi es donde se corrigen todas estas vulneravildiades, ademas como mencionamos debes tener actualizada las dependecia no de un proyecto si no de todos sus proyectos.
+
+#### Mantente informado
+Twitter es una buena fuente de información acerca de cuales son los ataques de seguridad el hastag security o ciberSecurity te puede ayudar a identificar que esta sucediendo.

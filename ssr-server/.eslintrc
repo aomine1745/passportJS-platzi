@@ -1,0 +1,9 @@
+{
+  "extends": ["./node_modules/standard/eslintrc.json"],
+  "env": {
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "parser": "babel-eslint"
+}
