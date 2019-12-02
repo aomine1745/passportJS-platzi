@@ -38,7 +38,6 @@ require('./utils/auth/strategies/twitter')
 // Fcebook strategy
 require('./utils/auth/strategies/facebook')
 
-
 app.post('/auth/sign-in', async (req, res, next) => {
   const { rememberMe } = req.body
 
@@ -70,7 +69,7 @@ app.post('/auth/sign-up', async (req, res, next) => {
 
   try {
     await axios({
-      url: `${config.apiUrl}/api/auth/sign-in`,
+      url: `${config.apiUrl}/api/auth/sign-up`,
       method: 'post',
       data: user
     })
@@ -196,7 +195,7 @@ app.get(
   '/auth/facebook/callback',
   passport.authenticate('facebook', { session: false }),
   (req, res, next) => {
-    if( !req.user) next(boom.unauthorized())
+    if (!req.user) next(boom.unauthorized())
 
     const { token, ...user } = req.user
 
