@@ -46,7 +46,7 @@ function authApi (app) {
           }
 
           const token = jwt.sign(payload, config.authJwtSecret, {
-            expiresIn: '15m'
+            expiresIn: '30d'
           })
 
           res.status(200).json({
