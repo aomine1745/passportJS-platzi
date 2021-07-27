@@ -30,7 +30,7 @@
     "passport-http": "^0.3.0",
     "passport-oauth": "^1.0.0",
     "passport-twitter": "^1.0.4",
-    "snyk": "^1.518.0"
+    "snyk": "^1.667.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
